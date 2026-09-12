@@ -21,6 +21,7 @@ import (
 	mesheryctlflags "github.com/meshery/meshery/mesheryctl/internal/cli/pkg/flags"
 	"github.com/meshery/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/meshery/meshery/mesheryctl/pkg/utils"
+	"github.com/meshery/meshery/mesheryctl/internal/cli/pkg/display"
 
 	"github.com/meshery/meshery/server/models"
 	"github.com/pkg/errors"
@@ -140,4 +141,22 @@ func generateModelDataToDisplay(modelsResponse *models.MeshmodelsAPIResponse) ([
 	}
 
 	return rows, modelsResponse.TotalCount
+}
+
+func generateModelOutput(modelsResponse *models.MeshmodelsAPIResponse) []display.ModelOutput {
+	output := []display.ModelOutput{}
+
+	for _, model := range modelsResponse.Models {
+		modelName := model.Name
+		if modelName == "" {
+			modelName = "N/A"
+		}
+
+		output = append(output, display.ModelOutput{
+			Model:   modelName,
+			Version: model.Version,
+		})
+	}
+
+	return output
 }

@@ -12,6 +12,7 @@ type cmdModelListFlags struct {
 	Page     int  `json:"page" validate:"gte=1"`
 	PageSize int  `json:"pagesize" validate:"gte=1"`
 	Count    bool `json:"count" validate:"boolean"`
+	Output string `json:"output"`
 }
 
 var modelListFlags cmdModelListFlags
@@ -64,6 +65,7 @@ mesheryctl model list --count
 }
 
 func init() {
+	listModelCmd.Flags().StringVarP(&modelListFlags.Output, "output","o","table","(optional) Output format: table, json, yaml")
 	listModelCmd.Flags().IntVarP(&modelListFlags.Page, "page", "p", 1, "(optional) List next set of models with --page (default = 1)")
 	listModelCmd.Flags().IntVarP(&modelListFlags.PageSize, "pagesize", "s", 10, "(optional) List next set of models with --pagesize (default = 10)")
 	listModelCmd.Flags().BoolVarP(&modelListFlags.Count, "count", "c", false, "(optional) Get the number of models in total")
